@@ -1,0 +1,51 @@
+int pot1 =A0;
+int pot2 = A1;
+int vPot1 = 0;
+int vPot2 = 0;
+
+const int botonPin1 = 2;
+const int botonPin2 = 7;
+int estadoBoton1 = 0;
+int estadoBoton2 = 0;
+
+int ledPin = 13;
+
+int estadoBoton = 0;
+
+void setup(){
+// corre una vez
+  Serial.begin(9600);
+  pinMode(pot1, INPUT);
+  pinMode(pot2, INPUT);
+  
+  pinMode(botonPin1, INPUT);
+  pinMode(ledPin, INPUT);
+  pinMode(botonPin2, INPUT);
+  pinMode(ledPin, INPUT);
+}
+
+void loop(){
+// corre continuamente
+  vPot1 = analogRead(pot1); // lee la entrada analoga A0
+  vPot2 = analogRead(pot2);
+  
+  Serial.println(vPot1); // lee valores de voltaje
+  Serial.println(",");
+  Serial.println(vPot2);
+  Serial.flush();
+  delay(100); // retrasa la lectura 1 ms
+  
+  estadoBoton = digitalRead(botonPin1);
+  if(estadoBoton == HIGH) {
+  	digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  estadoBoton = digitalRead(botonPin2);
+  if(estadoBoton == HIGH) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+}
+  }
+}
+  
