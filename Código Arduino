@@ -34,6 +34,9 @@ void loop(){
   Serial.println(vPot2);
   Serial.flush();
   delay(100); // retrasa la lectura 1 ms
+
+  Serial.println(botonPin1);
+  Serial.println(botonPin2);
   
   estadoBoton = digitalRead(botonPin1);
   if(estadoBoton == HIGH) {
@@ -48,4 +51,3 @@ void loop(){
 }
   }
 }
-  
