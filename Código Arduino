@@ -35,19 +35,28 @@ void loop(){
   Serial.flush();
   delay(100); // retrasa la lectura 1 ms
 
-  Serial.println(botonPin1);
-  Serial.println(botonPin2);
+  //Serial.println(botonPin1); 
+  //Serial.println(botonPin2);
   
-  estadoBoton = digitalRead(botonPin1);
-  if(estadoBoton == HIGH) {
-  	digitalWrite(ledPin, HIGH);
+  estadoBoton1 = digitalRead(botonPin1);
+
+  if(estadoBoton1 == HIGH) {
+  	digitalWrite(ledPin, HIGH); 
+    Serial.println(estadoBoton1);
+    Serial.write(estadoBoton1);
   } else {
     digitalWrite(ledPin, LOW);
-  estadoBoton = digitalRead(botonPin2);
-  if(estadoBoton == HIGH) {
-    digitalWrite(ledPin, HIGH);
-  } else {
-    digitalWrite(ledPin, LOW);
-}
+    Serial.println(estadoBoton1);
+    Serial.write(estadoBoton1);
   }
+
+  estadoBoton2 = digitalRead(botonPin2); 
+  if(estadoBoton == HIGH) {
+    digitalWrite(ledPin, HIGH); 
+    Serial.println(estadoBoton2);
+  } else {
+    digitalWrite(ledPin, LOW); 
+    Serial.println(estadoBoton2);
 }
+}
+
