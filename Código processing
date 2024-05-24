@@ -1,3 +1,9 @@
+import processing.serial.*;
+
+Serial myPort;
+int[] serialInArray = new int[4];
+int serialCount = 0;
+
 PImage img1;
 PImage img2;
 PImage img3;
@@ -45,6 +51,16 @@ void setup (){
   img20 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises6pm.jpeg");
   img21 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor9pm.jpeg");
   img22 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises9pm.jpeg");
+  
+  // Print a list of the serial ports, for debugging purposes:
+  printArray(Serial.list());
+
+  // I know that the first port in the serial list on my mac
+  // is always my  FTDI adaptor, so I open Serial.list()[0].
+  // On Windows machines, this generally opens COM1.
+  // Open whatever port is the one you're using.
+  String portName = Serial.list()[0];
+  myPort = new Serial(this, portName, 9600);
   
 }
 
