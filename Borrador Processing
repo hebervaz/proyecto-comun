@@ -1,0 +1,148 @@
+import processing.serial.*;
+
+Serial myPort;
+int[] serialInArray = new int[4];
+int serialCount = 0;
+
+
+PImage img1;
+PImage img2;
+PImage img3;
+PImage img4;
+PImage img5;
+PImage img6;
+PImage img7;
+PImage img8;
+PImage img9;
+PImage img10;
+PImage img11;
+PImage img12;
+PImage img13;
+PImage img14;
+PImage img15;
+PImage img16;
+PImage img17;
+PImage img18;
+PImage img19;
+PImage img20;
+PImage img21;
+PImage img22;
+
+float alphaLeft = 0;
+float alphaRight = 0;
+int fadeAmount = 1;
+boolean direction = true;
+
+final int LOW = 0;
+
+void setup (){
+  fullScreen();
+  img1 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hcolor9am.jpeg");
+  img2 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hgrises9am.jpeg");
+  img3 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hcolor12pm.jpeg");
+  img4 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hgrises12pm.jpeg");
+  img5 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hcolor3pm.jpeg");
+  img6 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hgrises3pm.jpeg");
+  img7 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hcolor6pm.jpeg");
+  img8 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hgrises6pm.jpeg");
+  img9 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hcolor9pm.jpeg");
+  img10 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/hgrises9pm.jpeg");
+  img11 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor6am.jpeg");
+  img12 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises6am.jpeg");
+  img13 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor9am.jpeg");
+  img14 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises9am.jpeg");
+  img15 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor12pm.jpeg");
+  img16 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises12pm.jpeg");
+  img17 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor3pm.jpeg");
+  img18 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises3pm.jpeg");
+  img19 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor6pm.jpeg");
+  img20 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises6pm.jpeg");
+  img21 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/acolor9pm.jpeg");
+  img22 = loadImage("/Users/gerber/Documents/Processing/sketch_eje/Proyecto final/assets/agrises9pm.jpeg");
+  
+ 
+  myPort = new Serial(this, Serial.list()[2], 9600);
+  
+}
+
+void draw (){
+  
+  if (myPort.available() > 0){
+    String datos = myPort.readStringUntil('\n');
+    if (datos != null){
+      String[] valores = datos.trim().split(",");
+      
+      int potLeftValue = int(valores[0]);
+      int potRightValue = int(valores[1]);
+      int button1State = int(valores[2]);
+      int button2State = int(valores[3]);
+      
+      alphaLeft = map(potLeftValue, 0, 1023, 0, 255);
+      alphaRight = map(potRightValue, 0, 1023, 0, 255);
+      
+      if (button1State == LOW){
+        direction = true;
+      }
+      
+      if (button2State == LOW){
+        direction = false;
+      }
+    }
+  }
+  
+  if (direction){
+    alphaLeft += fadeAmount;
+    alphaRight += fadeAmount;
+  } else {
+    alphaLeft -= fadeAmount;
+    alphaRight -= fadeAmount;
+  }
+  
+  alphaLeft = constrain(alphaLeft, 0, 255);
+  alphaRight = constrain(alphaRight, 0, 255); 
+  
+   tint(255, alphaLeft);
+  image (img1, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img2, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img3, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img4, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img5, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img6, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img7, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img8, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img9, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img10, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img11, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img12, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img13, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img14, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img15, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img16, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img17, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img18, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img19, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img20, width/2, 0, width/2, height);
+   tint(255, alphaLeft);
+  image (img21, 0, 0, width/2, height);
+   tint(255, alphaRight);
+  image (img22, width/2, 0, width/2, height);
+}
