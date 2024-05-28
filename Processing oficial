@@ -1,0 +1,122 @@
+import processing.serial.*;
+
+Serial myPort;
+int[] serialInArray = new int[4];
+int serialCount = 0;
+
+PImage[][] imgIzquierda1 = new PImage[6][1];
+PImage[][] imgIzquierda2 = new PImage[6][1];
+PImage[][] imgDerecha1 = new PImage[6][1];
+PImage[][] imgDerecha2 = new PImage[6][1];
+
+int grupoIzquierda = 0;
+int grupoDerecha = 0;
+int indiceIzquierda = 0;
+int indiceDerecha = 0;
+
+int prevPotIzquierdo = -1;
+int prevPotDerecho = -1;
+
+final int LOW = 0;
+
+void setup() {
+  fullScreen();
+  
+  myPort = new Serial(this, Serial.list()[2], 9600);
+  
+  String[] pathsIzquierda1 = {
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/acolor6am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/acolor9am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/acolor12pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/acolor3pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/acolor6pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/acolor9pm"
+  };
+  
+  String[] pathsDerecha1 = {
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/agrises6am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/agrises9am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/agrises12pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/agrises3pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/agrises6pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/agrises9pm"
+  };
+  
+  String[] pathsIzquierda2 = {
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hcolor6am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hcolor9am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hcolor12pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hcolor3pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hcolor6pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hcolor9pm"
+  };
+  
+  String[] pathsDerecha2 = {
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hgrises6am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hgrises9am",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hgrises12pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hgrises3pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hgrises6pm",
+    "/Users/gerber/Documents/Processing/sketch_borrador/final/assets/hgrises9pm"
+  };
+  
+  for (int i = 0; i < 6; i++) {
+    imgIzquierda1[i][0] = loadImage(pathsIzquierda1[i] + ".jpeg");
+    imgDerecha1[i][0] = loadImage(pathsDerecha1[i] + ".jpeg");
+    imgIzquierda2[i][0] = loadImage(pathsIzquierda2[i] + ".jpeg");
+    imgDerecha2[i][0] = loadImage(pathsDerecha2[i] + ".jpeg");
+  }
+}
+
+void draw() {
+  if (myPort.available() > 0) {
+    String val = myPort.readStringUntil('\n');
+    if (val != null) {
+      val = trim(val);
+      String[] values = split(val, ',');
+      if (values.length == 4) {
+        int potIzquierdo = int(values[0]);
+        int potDerecho = int(values[1]);
+        int botonIzquierdo = int(values[2]);
+        int botonDerecho = int(values[3]);
+
+        // Calcular índices de imágenes basados en los potenciadores
+        if (abs(potIzquierdo - prevPotIzquierdo) > 10) {
+          indiceIzquierda = int(map(potIzquierdo, 0, 1023, 0, 5));
+          prevPotIzquierdo = potIzquierdo;
+        }
+        if (abs(potDerecho - prevPotDerecho) > 10) {
+          indiceDerecha = int(map(potDerecho, 0, 1023, 0, 5));
+          prevPotDerecho = potDerecho;
+        }
+
+        // Controlar grupos de imágenes con los botones
+        if (botonIzquierdo == LOW) {
+          grupoIzquierda = (grupoIzquierda + 1) % 2;
+        }
+        if (botonDerecho == LOW) {
+          grupoDerecha = (grupoDerecha + 1) % 2;
+        }
+      }
+    }
+  }
+
+  background(255);
+
+  // Dibujar imágenes del lado izquierdo
+  if (grupoIzquierda == 0) {
+    image(imgIzquierda1[indiceIzquierda][0], 0, 0, width / 2, height);
+  } else {
+    image(imgIzquierda2[indiceIzquierda][0], 0, 0, width / 2, height);
+  }
+
+  // Dibujar imágenes del lado derecho
+  if (grupoDerecha == 0) {
+    image(imgDerecha1[indiceDerecha][0], width / 2, 0, width / 2, height);
+  } else {
+    image(imgDerecha2[indiceDerecha][0], width / 2, 0, width / 2, height);
+  }
+
+  // Agregar un pequeño retraso para suavizar la actualización
+  delay(30);
+}
