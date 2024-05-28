@@ -1,3 +1,9 @@
+//Proyecto TRANSICIONES
+//Equipo 10: Alejandro García Gutiérrez & Heber Vazquez Hernández 
+//Orígenes y rupturas del arte contemporáneo
+//Segundo trimestre
+//Universidad Autónoma Metropolitana, Unidad Lerma
+
 import processing.serial.*;
 
 Serial myPort;
