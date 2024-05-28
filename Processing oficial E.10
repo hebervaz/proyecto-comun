@@ -4,6 +4,53 @@
 //Segundo trimestre
 //Universidad Autónoma Metropolitana, Unidad Lerma
 
+//_____________________________________________________________________________________________
+
+//Inicia código de Arduino
+
+// Definir los pines para los componentes
+const int potLeftPin = A0;     // Pin analógico para el potenciómetro del lado izquierdo
+const int potRightPin = A1;    // Pin analógico para el potenciómetro del lado derecho
+const int button1Pin = 2;      // Pin digital para el primer pulsador
+const int button2Pin = 7;      // Pin digital para el segundo pulsador
+
+void setup() {
+  // Inicializar el puerto serie para la comunicación con Processing
+  Serial.begin(9600);
+  
+  // Configurar los pines de los pulsadores como entrada
+  pinMode(button1Pin, INPUT_PULLUP);
+  pinMode(button2Pin, INPUT_PULLUP);
+}
+
+void loop() {
+  // Leer los valores de los potenciómetros
+  int potLeftValue = analogRead(potLeftPin);
+  int potRightValue = analogRead(potRightPin);
+  
+  // Leer el estado de los pulsadores
+  int button1State = digitalRead(button1Pin);
+  int button2State = digitalRead(button2Pin);
+  
+  // Enviar los valores a Processing a través del puerto serie
+  Serial.print(potLeftValue);
+  Serial.print(",");
+  Serial.print(potRightValue);
+  Serial.print(",");
+  Serial.print(button1State);
+  Serial.print(",");
+  Serial.println(button2State);
+  
+  // Esperar un breve periodo de tiempo
+  delay(100);
+}
+
+//Termina código de Arduino
+
+//__________________________________________________________________________________________________
+
+//Inicia código de Processing 
+
 import processing.serial.*;
 
 Serial myPort;
@@ -126,3 +173,5 @@ void draw() {
   // Agregar un pequeño retraso para suavizar la actualización
   delay(30);
 }
+
+//Termina código de Processing
